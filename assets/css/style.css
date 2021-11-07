@@ -89,3 +89,23 @@ section .future {
     width: 18%;
 }
 
+/*uv index indicators*/
+.green {
+    background: green;
+}
+
+.yellow {
+    background: yellow;
+}
+
+.orange {
+    background: orange;
+}
+
+.red {
+    background: red;
+}
+
+.purple {
+    background: purple;
+}
