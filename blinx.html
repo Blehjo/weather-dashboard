@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>Recipe Network</title>
+</head>
+<!-- to do: submit button, card for search results, maybe div for more info section with youtube vids -->
+
+<body>
+    <nav class="nav-extended">
+        <div class="nav-wrapper center">
+            <a href="#" class="brand-logo-center">Recipe Network</a>
+            <p id="local-storage-heading">Recent Searches</p>
+            <ul class = "search-history"></ul>
+        </div>
+        
+        <div class="nav-content">
+            <form>
+                <div class="input-field center">
+                    <input id="recipe-search-input" type="search" required placeholder="search">
+                </div>
+                <div class="button">
+                    <button id="recipe-search-button" type="submit" class="btn waves-effect waves-light">Submit</button>
+                    
+                </div>
+            </form>
+        </div>
+    </nav>
+
+
+    <div id="search-results" class="row hidden">
+        <div class="col s12 m4">
+            <div class="card large" id = "card1">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card large">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card large">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card large">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card large">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+            <div class="card large">
+                <div class="card-image"></div>
+                <div class="card-content"></div>
+                <div class="card-action center"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="recipe-display container hidden">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card">
+                    <div class="recipe-image center">
+                    </div>
+                    <div class="recipe-content center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/functions.js"></script>
+</body>
+
+
+</html>

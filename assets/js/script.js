@@ -5,14 +5,31 @@
 
 var inputField = document.querySelector("#cityname");
 var button = document.querySelector(".search");
-
+var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
 var date = moment().format('l');
 
-function fetchInfo() {
+// localstorage
+var cityInput = localStorage.getItem("userInput") || "[]";
+var cityArr = JSON.parse(cityInput);
+
+
+button.addEventListener("click", function(event){
+    event.preventDefault();
+    var keyword = inputField.value.trim();
+    console.log(keyword)
+    if (keyword) {
+        keyword.textContent = "Thanks!";
+        fetchPrimaryInfo();
+        fetchSecondaryInfo();
+    } else {
+        inputField.setAttribute("placeholder", "Please enter a city")
+    }
+});
+
+function fetchPrimaryInfo() {
     var primaryData = document.createElement('h1');
     var infoText = document.querySelector(".current")
     var cityName = inputField.value;
-    var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
     var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
     
     fetch(requestUrl)
@@ -26,6 +43,7 @@ function fetchInfo() {
         infoText.append(primaryData);
         infoText.append(icon);
         primaryData.setAttribute('style', "padding-bottom: 1rem; padding-left: .5rem");
+        infoText.setAttribute('style', "border: 1px solid black; padding: 5px;")
         
         var lat = weatherData.coord.lat;
         var lon = weatherData.coord.lon;
@@ -51,41 +69,53 @@ function fetchInfo() {
             windSpeed.setAttribute('style', "padding-bottom: 1rem; padding-left: 1rem; font-weight: 60");
             humidity.setAttribute('style', "padding-bottom: 1rem; padding-left: 1rem; font-weight: 60");
             uvIndex.setAttribute('style', "padding-bottom: 1rem; padding-left: 1rem; font-weight: 60");
+            uvIndex.setAttribute('data-id', weatherData.current.uvi);
+            if (uvIndex.id <= 2) {
+                uvIndex.classList.add('green');
+            } else if (uvIndex.id > 2 && uvIndex.id <= 5) {
+                uvIndex.classList.add('yellow');
+            } else if (uvIndex.id > 5 && uvIndex.id <= 7) {
+                uvIndex.classList.add('orange');
+            } else if (uvIndex.id > 7 && uvIndex.id <= 10) {
+                uvIndex.classList.add('red');
+            } else if (uvIndex.id > 10) {
+                uvIndex.classList.add('purple');
+            };
         })
     })
 }
 
-button.addEventListener("click", fetchInfo);
-
-// for (i = 0; i < 5; i++) {
-//     function fetchInfo() {
-//         var futureForecasts = document.createElement('h1');
-//         var forecastsEl = document.querySelector(".forecasts")
-//         var cityName = inputField.value;
-//         var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
-//         var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&mode=xml&appid=" + apiKey;
-//     fetch(forecastUrl)
-//     .then(function(response) {
-//         return response.json()
-//     })
-//     .then(function(forecastData) {
-
-//     })
-//    futureForecasts.textContent = date + "Temp: " + weatherData.
-
-// }
-
-// "<h3>Description: <img src='http://openweathermap.org/img/w/" + data.weather[0].icon+ ".png'> " + data.weather.description + "</h3>"
-
-
-// if (uvi <= 2) {
-//     classList.add('green');
-// } else if (uvi > 2 && uvi <= 5) {
-//     classList.add('yellow');
-// } else if (uvi > 5 && uvi <= 7) {
-//     classList.add('orange');
-// } else if (uvi > 7 && uvi <= 10) {
-//     classList.add('red');
-// } else if (uvi > 10) {
-//     classList.add('purple');
-// };
+function fetchSecondaryInfo() {
+    //event.preventDefault();   
+    var currentInfo = document.querySelector(".forecasts") 
+    var cityName = inputField.value.trim();
+    var requestUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=imperial&appid=" + apiKey;
+    fetch(requestUrl)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (weatherData) {
+            var forecast = weatherData.list;
+            // for loop going through the 5 days and putting them in divs
+            for (i = 3; i < forecast.length; i = i + 8) {
+                var forecastCards = forecast[i];
+                var secondaryData = document.createElement('h1');
+                var dayForecaster = document.querySelector('.dayforecast');
+                dayForecaster.classList.remove("hidden");
+                var iconImage = document.createElement('img')
+                secondaryData.classList="days"
+                var iconID = forecastCards.weather[0].icon;
+                secondaryData.setAttribute("data-id", iconID)
+                iconImage.src = "http://openweathermap.org/img/wn/" + iconID + "@2x.png"
+                var forecastDate = document.createElement("h5");
+                forecastDate.textContent = moment.unix(forecastCards.dt).format("l");
+                secondaryData.appendChild(forecastDate);
+                secondaryData.setAttribute("style", "text-align: center; padding: 1rem");
+                currentInfo.append(secondaryData);
+                secondaryData.append(iconImage);
+                secondaryData.append("\nTemp: " + forecastCards.main.temp + "°F")
+                secondaryData.append("\nWind: " + (forecastCards.wind.speed).toFixed() + " MPH")
+                secondaryData.append("\nHumidity: " + (forecastCards.main.humidity) + " %")
+            }
+        });
+}

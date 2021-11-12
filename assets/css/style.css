@@ -70,28 +70,35 @@ section .future {
     margin: 1rem;
 }
 
+.hidden {
+    display: none;
+}
+
 .forecasts {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
 }
 
-.current {
+/* .current {
     border: 1px solid black;
     padding: 5px;
-}
+} */
 
 .days {
     padding-bottom: 15rem;
     background: linear-gradient(to right, blue , rgb(51, 51, 158));
-    border-radius: 10px;
+    /* border-radius: 10px; */
     /* display: inline-block; */
     width: 18%;
+    line-height: 2rem;
 }
 
 /*uv index indicators*/
 .green {
     background: green;
+    padding: 1rem;
+    border-radius: 5px;
 }
 
 .yellow {
