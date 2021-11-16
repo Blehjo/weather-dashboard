@@ -5,13 +5,37 @@
 
 var inputField = document.querySelector("#cityname");
 var button = document.querySelector(".search");
+var savedSearches = document.querySelector('.search-history');
 var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
 var date = moment().format('l');
 
 // localstorage
-var cityInput = localStorage.getItem("userInput") || "[]";
-var cityArr = JSON.parse(cityInput);
+var gettingItem = JSON.parse(localStorage.getItem('city')) || [];
 
+inputField.value = " ";
+
+var set = function(){
+    var city = [inputField.value];
+    gettingItem.push(city);
+    console.log(gettingItem);
+    localStorage.setItem('city', JSON.stringify(gettingItem));
+}
+  
+//Display local storage
+var listing = function(){
+    inputField.innerHTML = '';
+    var searchLength = gettingItem.length;
+    if(gettingItem.length >= 5){
+        searchLength = 5;
+    }
+    for(var i = 0; i < searchLength; i++){
+        var list = document.querySelector('.search-history');
+        // list.innerHTML = `<ol>${gettingItem[gettingItem.length - i - 1]}</ol>`;
+        var cityButton = document.createElement('button');
+        cityButton.textContent = JSON.parse(localStorage.getItem('city')) || [i];
+        savedSearches.append(cityButton);
+    }
+}
 
 button.addEventListener("click", function(event){
     event.preventDefault();
@@ -21,6 +45,8 @@ button.addEventListener("click", function(event){
         keyword.textContent = "Thanks!";
         fetchPrimaryInfo();
         fetchSecondaryInfo();
+        set();
+        listing();
     } else {
         inputField.setAttribute("placeholder", "Please enter a city")
     }
@@ -97,7 +123,7 @@ function fetchSecondaryInfo() {
         .then(function (weatherData) {
             var forecast = weatherData.list;
             // for loop going through the 5 days and putting them in divs
-            for (i = 3; i < forecast.length; i = i + 8) {
+            for (i = 5; i < forecast.length; i = i + 8) {
                 var forecastCards = forecast[i];
                 var secondaryData = document.createElement('h1');
                 var dayForecaster = document.querySelector('.dayforecast');
@@ -119,3 +145,5 @@ function fetchSecondaryInfo() {
             }
         });
 }
+
+listing();
