@@ -3,19 +3,23 @@
 //Get access to button
 //create function to fetch api
 
-var inputField = document.querySelector("#cityname");
+var inputField = document.getElementById("cityname");
 var button = document.querySelector(".search");
-var savedSearches = document.querySelector('.search-history');
+//var savedSearches = document.querySelector('.search-history');
 var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
 var date = moment().format('l');
 
 // localstorage
 var gettingItem = JSON.parse(localStorage.getItem('city')) || [];
 
-inputField.value = " ";
+
+var list = document.querySelector('.search-history');
+
+inputField.value = '';
 
 var set = function(){
-    var city = [inputField.value];
+    //inputField.value = " ";
+    var city = inputField.value;
     gettingItem.push(city);
     console.log(gettingItem);
     localStorage.setItem('city', JSON.stringify(gettingItem));
@@ -23,17 +27,20 @@ var set = function(){
   
 //Display local storage
 var listing = function(){
-    inputField.innerHTML = '';
+    list.innerHTML = '';
     var searchLength = gettingItem.length;
-    if(gettingItem.length >= 5){
+    console.log(searchLength)
+    if(searchLength >= 5){
         searchLength = 5;
     }
     for(var i = 0; i < searchLength; i++){
-        var list = document.querySelector('.search-history');
-        // list.innerHTML = `<ol>${gettingItem[gettingItem.length - i - 1]}</ol>`;
         var cityButton = document.createElement('button');
-        cityButton.textContent = JSON.parse(localStorage.getItem('city')) || [i];
-        savedSearches.append(cityButton);
+        cityButton.textContent = `${gettingItem[gettingItem.length - i - 1]}`;
+        list.append(cityButton);
+
+    //     list.innerHTML = `<ol>${gettingItem[gettingItem.length - i - 1]}</ol>`;
+    //   historyEl.append(list);
+
     }
 }
 
@@ -55,6 +62,9 @@ button.addEventListener("click", function(event){
 function fetchPrimaryInfo() {
     var primaryData = document.createElement('h1');
     var infoText = document.querySelector(".current")
+    infoText.innerHTML = "";
+    var future = document.querySelector('.forecasts');
+    future.innerHTML = "";
     var cityName = inputField.value;
     var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
     
@@ -145,5 +155,7 @@ function fetchSecondaryInfo() {
             }
         });
 }
+
+
 
 listing();
