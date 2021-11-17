@@ -106,6 +106,7 @@ function fetchPrimaryInfo() {
             humidity.setAttribute('style', "padding-bottom: 1rem; padding-left: 1rem; font-weight: 60");
             uvIndex.setAttribute('style', "padding-bottom: 1rem; padding-left: 1rem; font-weight: 60");
             uvIndex.setAttribute('data-id', weatherData.current.uvi);
+            inputField.value = "";
             if (uvIndex.id <= 2) {
                 uvIndex.classList.add('green');
             } else if (uvIndex.id > 2 && uvIndex.id <= 5) {
