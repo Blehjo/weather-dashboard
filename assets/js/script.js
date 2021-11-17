@@ -3,7 +3,7 @@
 //Get access to button
 //create function to fetch api
 
-var inputField = document.querySelector("#cityname");
+var inputField = document.getElementById("cityname");
 var button = document.querySelector(".search");
 var savedSearches = document.querySelector('.search-history');
 var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
@@ -27,11 +27,11 @@ var set = function(){
   
 //Display local storage
 var listing = function(){
-    inputField.innerHTML = '';
+    list.innerHTML = '';
     var searchLength = gettingItem.length;
     console.log(searchLength)
-    if(searchLength.length >= 3){
-        searchLength = 3;
+    if(searchLength >= 5){
+        searchLength = 5;
     }
     for(var i = 0; i < searchLength; i++){
         var cityButton = document.createElement('button');
