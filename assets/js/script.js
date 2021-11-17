@@ -5,7 +5,7 @@
 
 var inputField = document.getElementById("cityname");
 var button = document.querySelector(".search");
-var savedSearches = document.querySelector('.search-history');
+//var savedSearches = document.querySelector('.search-history');
 var apiKey = "d85c66df1c59659020eab5dbca7e04d8";
 var date = moment().format('l');
 
@@ -62,6 +62,9 @@ button.addEventListener("click", function(event){
 function fetchPrimaryInfo() {
     var primaryData = document.createElement('h1');
     var infoText = document.querySelector(".current")
+    infoText.innerHTML = "";
+    var future = document.querySelector('.forecasts');
+    future.innerHTML = "";
     var cityName = inputField.value;
     var requestUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + apiKey;
     
@@ -152,5 +155,7 @@ function fetchSecondaryInfo() {
             }
         });
 }
+
+
 
 listing();
