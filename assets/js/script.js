@@ -12,10 +12,14 @@ var date = moment().format('l');
 // localstorage
 var gettingItem = JSON.parse(localStorage.getItem('city')) || [];
 
-inputField.value = " ";
+
+var list = document.querySelector('.search-history');
+
+inputField.value = '';
 
 var set = function(){
-    var city = [inputField.value];
+    //inputField.value = " ";
+    var city = inputField.value;
     gettingItem.push(city);
     console.log(gettingItem);
     localStorage.setItem('city', JSON.stringify(gettingItem));
@@ -25,15 +29,18 @@ var set = function(){
 var listing = function(){
     inputField.innerHTML = '';
     var searchLength = gettingItem.length;
-    if(gettingItem.length >= 5){
-        searchLength = 5;
+    console.log(searchLength)
+    if(searchLength.length >= 3){
+        searchLength = 3;
     }
     for(var i = 0; i < searchLength; i++){
-        var list = document.querySelector('.search-history');
-        // list.innerHTML = `<ol>${gettingItem[gettingItem.length - i - 1]}</ol>`;
         var cityButton = document.createElement('button');
-        cityButton.textContent = JSON.parse(localStorage.getItem('city')) || [i];
-        savedSearches.append(cityButton);
+        cityButton.textContent = `${gettingItem[gettingItem.length - i - 1]}`;
+        list.append(cityButton);
+
+    //     list.innerHTML = `<ol>${gettingItem[gettingItem.length - i - 1]}</ol>`;
+    //   historyEl.append(list);
+
     }
 }
 
